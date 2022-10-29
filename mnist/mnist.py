@@ -15,7 +15,7 @@ test_size = 10000
 batch_size = 100
 epoch_num = 100
 
-# model
+# model by GCN
 class Net(torch.nn.Module):
   def __init__(self):
     super(Net, self).__init__()
