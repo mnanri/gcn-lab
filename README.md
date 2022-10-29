@@ -1,4 +1,4 @@
-# gnn-exp
+# GNN experimental inspection
 process of install library for Mac
 ```
 $ brew install python # install python for using pip3 (or pip).
