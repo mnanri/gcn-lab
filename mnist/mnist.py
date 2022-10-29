@@ -95,7 +95,9 @@ def main():
   # set loss function
   criterion = nn.CrossEntropyLoss()
 
+  # define struct for history of loss and accuracy
   history = {
+    "epoch": [],
     "train_loss": [],
     "test_loss": [],
     "test_acc": []
@@ -119,6 +121,7 @@ def main():
         print('\repoch: {:d} loss: {:.3f}  {}'.format(epoch + 1, loss.cpu().item(), progress_bar), end="  ")
 
     print('\repoch: {:d} loss: {:.3f}'.format(epoch + 1, train_loss / (train_size / batch_size)), end="  ")
+    history["epoch"].append(epoch+1)
     history["train_loss"].append(train_loss / (train_size / batch_size))
 
     correct = 0
@@ -142,6 +145,27 @@ def main():
     print(f'Test Loss: {loss.cpu().item()/batch_num:.3f}',end=endstr)
 
   print("==========Finish Training==========")
+
+  fig1, ax1 = plt.subplots()
+  ax1.set_title('Loss [train=blue, test=orange]')
+  ax1.set_xlabel('epoch')
+  ax1.set_ylabel('loss')
+  ax1.grid()
+  ax1.plot(history['epoch'], history["train_loss"], color="orange",label="train")
+  ax1.plot(history['epoch'], history["test_loss"], color="blue",label="test")
+  fig1.tight_layout()
+  fig1.savefig('loss.png')
+  fig1.show()
+
+  fig2, ax2 = plt.subplots()
+  ax2.set_title('Accuracy')
+  ax2.set_xlabel('epoch')
+  ax2.set_ylabel('accuracy')
+  ax2.grid()
+  ax2.plot(history['epoch'], history["test_acc"], color="black")
+  fig2.tight_layout()
+  fig2.savefig('accuracy.png')
+  fig2.show()
 
   # output final result
   correct = 0
