@@ -4,7 +4,6 @@ import torch.nn.functional as F
 from torch_geometric.nn import GCNConv
 from torch_geometric.data import Data
 from torch_geometric.datasets import KarateClub
-# import torch_geometric.transforms as T
 from torch_geometric.utils import to_networkx
 
 import networkx as nx

@@ -4,7 +4,6 @@ import torch.nn.functional as F
 from torch_geometric.nn import GCNConv
 from torch_geometric.data import Data
 from torch_geometric.datasets import KarateClub
-# import torch_geometric.transforms as T
 from torch_geometric.utils import to_networkx
 
 import networkx as nx
@@ -35,7 +34,6 @@ class Net(torch.nn.Module):
         x, edge_index = data.x, data.edge_index
         x = self.conv1(x, edge_index)
         x = F.relu(x)
-        # x = F.dropout(x, training=self.training)
         x = self.conv2(x, edge_index)
 
         return F.log_softmax(x, dim=1)
@@ -62,7 +60,6 @@ check_graph(data)
 
 # set optimizer
 optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
-# optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-4)
 
 # learning loop part
 for epoch in range(100):
@@ -82,14 +79,14 @@ _, pred = model(data).max(dim=1)
 print("Result:\n", pred)
 print("Truth:\n", data['y'])
 
-# produce test  graph data
+# produce test graph data
 test_dataset = KarateClub()
 test_data = test_dataset[0]
 
 x = test_data["x"]
 edge_index = test_data['edge_index']
 
-#  change some edges of graph
+# change some edges of graph
 edge_index[1][61] = 0  # form node 9 to node 2 to node 0
 edge_index[1][7] = 9   # form node 0 to node 8 to node 9
 edge_index[1][56] = 9   # form node 8 to node 0 to node 9
