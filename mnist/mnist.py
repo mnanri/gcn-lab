@@ -10,21 +10,23 @@ from torch_scatter import  scatter_max
 import matplotlib.pyplot as plt
 import gzip
 
-train_size = 60000
-test_size = 10000
+train_size = 6000
+test_size = 1000
 batch_size = 100
 epoch_num = 100
 
 # model by GCN
-class Net(torch.nn.Module):
+class Net(nn.Module):
   def __init__(self):
     super(Net, self).__init__()
+
     self.conv1 = GCNConv(2, 16)
     self.conv2 = GCNConv(16, 32)
     self.conv3 = GCNConv(32, 48)
     self.conv4 = GCNConv(48, 64)
     self.conv5 = GCNConv(64, 96)
     self.conv6 = GCNConv(96, 128)
+
     self.linear1 = torch.nn.Linear(128,64)
     self.linear2 = torch.nn.Linear(64,10)
 
@@ -80,7 +82,6 @@ def main():
 
   # set model
   model = Net().to(device)
-  # print(model)
 
   # set model as train mode
   model.train()
@@ -108,17 +109,17 @@ def main():
   for epoch in range(epoch_num):
     train_loss = 0.0
     for i, batch in enumerate(train_loader):
-      batch = batch.to('cpu')
+      batch = batch.to(device)
       optimizer.zero_grad()
       outputs = model(batch)
       loss = criterion(outputs,batch.t)
       loss.backward()
       optimizer.step()
 
-      train_loss += loss.cpu().item()
+      train_loss += loss.item()
       if i % 10 == 9:
         progress_bar = '['+('='*((i+1)//10))+(' '*((train_size//100-(i+1))//10))+']'
-        print('\repoch: {:d} loss: {:.3f}  {}'.format(epoch + 1, loss.cpu().item(), progress_bar), end="  ")
+        print('\repoch: {:d} loss: {:.3f}  {}'.format(epoch + 1, loss.item(), progress_bar), end="  ")
 
     print('\repoch: {:d} loss: {:.3f}'.format(epoch + 1, train_loss / (train_size / batch_size)), end="  ")
     history["epoch"].append(epoch+1)
@@ -139,10 +140,10 @@ def main():
         correct += (predicted == data.t).sum().cpu().item()
 
     history["test_acc"].append(correct/total)
-    history["test_loss"].append(loss.cpu().item()/batch_num)
+    history["test_loss"].append(loss.item()/batch_num)
     endstr = ' '*max(1,(train_size//1000-39))+"\n"
     print('Test Accuracy: {:.2f} %%'.format(100 * float(correct/total)), end='  ')
-    print(f'Test Loss: {loss.cpu().item()/batch_num:.3f}',end=endstr)
+    print(f'Test Loss: {loss.item()/batch_num:.3f}',end=endstr)
 
   print("==========Finish Training==========")
 
