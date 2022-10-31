@@ -19,3 +19,10 @@ $ pip install torch-scatter torch-sparse torch-cluster torch-spline-conv torch-g
 $ pip3 install networkx # install networkx to handle visualized figures.
 $ pip3 install matplotlib # install matplotlib to draw figures
 ```
+## GCN MNIST classification task
+train dataset: 60000
+test dataset: 10000
+convolution layer: 6
+affine layer: 2
+epoch count: 100
+final accuracy: 97.78%
