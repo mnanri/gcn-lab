@@ -1,4 +1,5 @@
 import gzip
+from matplotlib import pyplot as plt
 import numpy as np
 import torch
 import torch.nn as nn
@@ -7,7 +8,7 @@ import torch.nn.functional as F
 train_size = 60000
 test_size = 10000
 batch_size = 100
-epoch_num = 100
+epoch_num = 20
 
 class Net(nn.Module):
   def __init__(self):
@@ -39,14 +40,14 @@ class Net(nn.Module):
     return x
 
 def load_dataset(data_size, img_file_name, label_file_name):
-  with gzip.open('./minst/'+ img_file_name, 'rb') as f:
+  with gzip.open('./mnist/'+ img_file_name, 'rb') as f:
     imgs = np.frombuffer(f.read(), np.uint8, offset=16)
 
-  imgs = imgs.reshape(data_size,28,28)
+  imgs = imgs.reshape(data_size, 1, 28, 28)
   imgs = imgs.astype(np.float32)
   imgs /= 255
 
-  with gzip.open('./minst/'+ label_file_name, 'rb') as f:
+  with gzip.open('./mnist/'+ label_file_name, 'rb') as f:
     labels = np.frombuffer(f.read(), np.uint8, offset=8)
 
   X = torch.tensor(imgs, dtype=torch.float32)
@@ -143,6 +144,27 @@ def main():
     print(f'Test Loss: {loss/batch_num:.3f}',end=endstr)
 
   print("==========Finish Training==========")
+
+  fig1, ax1 = plt.subplots()
+  ax1.set_title('Loss [train=blue, test=orange]')
+  ax1.set_xlabel('epoch')
+  ax1.set_ylabel('loss')
+  ax1.grid()
+  ax1.plot(history['epoch'], history["train_loss"], color="orange",label="train")
+  ax1.plot(history['epoch'], history["test_loss"], color="blue",label="test")
+  fig1.tight_layout()
+  fig1.savefig('./mnist/loss_cnn.png')
+  fig1.show()
+
+  fig2, ax2 = plt.subplots()
+  ax2.set_title('Accuracy')
+  ax2.set_xlabel('epoch')
+  ax2.set_ylabel('accuracy')
+  ax2.grid()
+  ax2.plot(history['epoch'], history["test_acc"], color="black")
+  fig2.tight_layout()
+  fig2.savefig('./mnist/accuracy_cnn.png')
+  fig2.show()
 
   # output final result
   correct = 0

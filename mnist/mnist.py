@@ -155,7 +155,7 @@ def main():
   ax1.plot(history['epoch'], history["train_loss"], color="orange",label="train")
   ax1.plot(history['epoch'], history["test_loss"], color="blue",label="test")
   fig1.tight_layout()
-  fig1.savefig('./mnist/loss.png')
+  fig1.savefig('./mnist/loss_gcn.png')
   fig1.show()
 
   fig2, ax2 = plt.subplots()
@@ -165,7 +165,7 @@ def main():
   ax2.grid()
   ax2.plot(history['epoch'], history["test_acc"], color="black")
   fig2.tight_layout()
-  fig2.savefig('./mnist/accuracy.png')
+  fig2.savefig('./mnist/accuracy_gcn.png')
   fig2.show()
 
   # output final result
