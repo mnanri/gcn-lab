@@ -60,4 +60,5 @@ nx.draw_networkx_edges(nxg, draw_pos, arrowstyle='-', alpha=0.2)
 nx.draw_networkx_labels(nxg, draw_pos, font_size=10)
 
 plt.title('KarateClub')
+plt.savefig('./karate_club/default.png')
 plt.show()
