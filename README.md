@@ -20,12 +20,17 @@ $ pip3 install networkx # install networkx to handle visualized figures.
 $ pip3 install matplotlib # install matplotlib to draw figures
 ```
 ## GCN karate club classification task
-The graph contains 34 nodes, connected by 156 (undirected and unweighted) edges. Every node is labeled by one of four classes obtained via modularity-based clustering.
+The graph contains 34 nodes, connected by 156 (undirected and unweighted) edges. Every node is labeled by one of 4 classes obtained via modularity-based clustering.
 ```
 $ python3 ./karate_club/karate_club_gcn.py
 
-train dataset: 1
-test dataset: 34x10 # changed about 10% of edges in train data.
+train data: {
+  nodes: 34
+  edges: 156
+  features: 34
+  classes: 4
+}
+test dataset: 340 # changed about 10% of edges in train data.
 convolution layer: 2
 epoch count: 100
 average of accuracy: 93.40%
@@ -63,8 +68,13 @@ Nodes represent products and edges represent co-purchasing relations. The task i
 ```
 $ python3 ./amazon_computers/amazon_computers.py
 
-train dataset: 1
-test dataset: [13752/100]
+train dataset: {
+  nodes: 18333
+  egdes: 163788
+  features: 6805
+  classes: 15
+}
+test dataset: 137 # changed about 1% of edges in train data.
 convolution layer: 6
 epoch count: 200
 
