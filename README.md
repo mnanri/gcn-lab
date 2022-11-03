@@ -56,3 +56,16 @@ detail data
 ```
 epoch: 20 loss: 0.029  Test Accuracy: 98.44 %%  Test Loss: 0.063
 ```
+
+## GCN Amazon Computers classification task
+```
+$ python3 ./amazon_computers/amazon_computers.py
+
+train dataset: 1
+test dataset: [13752/100]
+convolution layer: 6
+epoch count: 200
+
+accuracy: 81.24%
+average of accuracy in test dataset: 41.57%
+```
