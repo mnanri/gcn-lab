@@ -5,8 +5,8 @@ def check_large_graph(data):
   print("Count of Nodes:\n>>>", data.num_nodes) # 5201
   print("Count of Edges:\n>>>", data.num_edges) # 217073
   print("Count of Features in a Node:\n>>>", data.num_node_features) # 2089
-  print("Is There Isorated Nodes?:\n>>>", data.has_isolated_nodes())
-  print("Is There Self-loops?:\n>>>", data.has_self_loops())
+  print("Is There Isorated Nodes?:\n>>>", data.has_isolated_nodes()) # False
+  print("Is There Self-loops?:\n>>>", data.has_self_loops()) # True
 
 dataset = WikipediaNetwork(root='./wikipedia_network', name='squirrel')
 print("Count of Graphs:\n>>>", len(dataset))  # 1
