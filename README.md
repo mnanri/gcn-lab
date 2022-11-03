@@ -69,10 +69,10 @@ Nodes represent products and edges represent co-purchasing relations. The task i
 $ python3 ./amazon_computers/amazon_computers.py
 
 train dataset: {
-  nodes: 18333
-  egdes: 163788
-  features: 6805
-  classes: 15
+  nodes: 13752
+  egdes: 491722
+  features: 767
+  classes: 10
 }
 test dataset: 137 # changed about 1% of edges in train data.
 convolution layer: 6
