@@ -63,7 +63,7 @@ model.train()
 
 optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-4)
 
-epoch_num = 200
+epoch_num = 1000
 for epoch in range(epoch_num):
   optimizer.zero_grad()
   out = model(data)
@@ -81,6 +81,7 @@ for i, p in enumerate(pred):
     err += 1
 print("Accuracy: {:.4f}%".format((1 - err / data.num_nodes) * 100))
 
+'''
 accuracy_list = []
 for _ in range(int(data.num_nodes/100)):
 
@@ -107,3 +108,4 @@ for _ in range(int(data.num_nodes/100)):
 print("Max Accuaracy: ", max(accuracy_list))
 print("Min Accuaracy: ", min(accuracy_list))
 print("Average of Accuaracy: ", np.mean(accuracy_list)*100)
+'''
