@@ -1,4 +1,5 @@
 import random
+from matplotlib import pyplot as plt
 import numpy as np
 import torch
 import torch.nn.functional as F
@@ -63,6 +64,10 @@ model.train()
 
 optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-4)
 
+history = {
+  "epoch": [],
+  "loss": [],
+}
 epoch_num = 1000
 for epoch in range(epoch_num):
   optimizer.zero_grad()
@@ -70,7 +75,19 @@ for epoch in range(epoch_num):
   loss = F.nll_loss(out, data.y)
   loss.backward()
   optimizer.step()
+
+  history["epoch"].append(epoch+1)
+  history["loss"].append(loss.item())
   print("Epoch: %d, Loss: %.4f" % (epoch+1, loss.item()))
+
+fig, ax = plt.subplots()
+ax.set_title("Loss")
+ax.set_xlabel("Epoch")
+ax.set_ylabel("Loss")
+ax.grid()
+ax.plot(history["epoch"], history["loss"], color="red")
+fig.tight_layout()
+fig.savefig("./amazon/amazon_computers_loss.png")
 
 model.eval()
 

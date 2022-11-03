@@ -76,8 +76,8 @@ train dataset: {
 }
 test dataset: 137 # changed about 1% of edges in train data.
 convolution layer: 6
-epoch count: 200
+epoch count: 1000
 
-accuracy: 81.24%
+accuracy: 87.51%
 average of accuracy in test dataset: 41.57%
 ```
