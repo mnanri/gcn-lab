@@ -105,15 +105,15 @@ print(" === Result of Prediction of Label === ")
 print(pred)
 '''
 
-accuaracy_list = []
-for i in range(data.num_nodes*10):
+accuracy_list = []
+for _ in range(data.num_nodes*10):
     test_dataset = KarateClub()
     test_data = test_dataset[0]
 
     x = test_data["x"]
     edge_index = test_data['edge_index']
 
-    for j in range(int(data.num_edges/10)):
+    for _ in range(int(data.num_edges/10)):
         a = random.randint(0, data.num_edges-1)
         b = random.randint(0, data.num_nodes-1)
         if edge_index[0][a] == b:
@@ -128,8 +128,8 @@ for i in range(data.num_nodes*10):
         if p != data['y'][j]:
             err += 1
 
-    accuaracy_list.append(1 - err/data.num_nodes)
+    accuracy_list.append(1 - err/data.num_nodes)
 
-print("Max Accuaracy: ", max(accuaracy_list))
-print("Min Accuaracy: ", min(accuaracy_list))
-print("Average of Accuaracy: %d%", np.mean(accuaracy_list)*100)
+print("Max Accuaracy: ", max(accuracy_list))
+print("Min Accuaracy: ", min(accuracy_list))
+print("Average of Accuaracy: %d%", np.mean(accuracy_list)*100)
