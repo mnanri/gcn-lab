@@ -1,6 +1,6 @@
+import random
 import torch
 import torch.nn.functional as F
-
 from torch_geometric.nn import GCNConv
 from torch_geometric.data import Data
 from torch_geometric.datasets import KarateClub
@@ -38,25 +38,24 @@ class Net(torch.nn.Module):
 
         return F.log_softmax(x, dim=1)
 
-# reed dataset
+# read dataset
 dataset = KarateClub()
 
-print("Count of Graphs:\n>>>", len(dataset))  # 1
-print("Count of Classes:\n>>>",dataset.num_classes)  # 4; each member belongs to a group
+# print("Count of Graphs:\n>>>", len(dataset))  # 1
+# print("Count of Classes:\n>>>",dataset.num_classes)  # 4; each member belongs to a group
 
 # device setting
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # produce instance of model
 model = Net()
-# print(model)
 
 # set model as train mode
 model.train()
 
 # get 1st graph
 data = dataset[0]
-check_graph(data)
+# check_graph(data)
 
 # set optimizer
 optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
@@ -68,17 +67,18 @@ for epoch in range(100):
     loss = F.nll_loss(out, data.y)
     loss.backward()
     optimizer.step()
-    print('Epoch %d | Loss: %.4f' % (epoch, loss.item()))
+    # print('Epoch %d | Loss: %.4f' % (epoch, loss.item()))
 
 # set model as evaluation mode
 model.eval()
 
 # prediction part
-_, pred = model(data).max(dim=1)
+# _, pred = model(data).max(dim=1)
 
-print("Result:\n", pred)
-print("Truth:\n", data['y'])
+# print("Result:\n", pred)
+# print("Truth:\n", data['y'])
 
+'''
 # produce test graph data
 test_dataset = KarateClub()
 test_data = test_dataset[0]
@@ -87,12 +87,12 @@ x = test_data["x"]
 edge_index = test_data['edge_index']
 
 # change some edges of graph
-edge_index[1][61] = 0  # form node 9 to node 2 to node 0
-edge_index[1][7] = 9   # form node 0 to node 8 to node 9
-edge_index[1][56] = 9   # form node 8 to node 0 to node 9
-edge_index[1][62] = 8   # form node 9 to node 33 to node 8
-edge_index[1][140] = 2  # form node 33 to node 9 to node 2
-edge_index[1][30] = 33  # form node 2 to node 9 to node 33
+for j in range(int(data.num_edges/10)):
+    a = random.randint(0, data.num_edges-1)
+    b = random.randint(0, data.num_nodes-1)
+    if edge_index[0][a] == b:
+        continue
+    edge_index[1][a] = b
 
 t_data = Data(x=x, edge_index=edge_index)
 
@@ -103,3 +103,33 @@ print(" === Label of Former Graph =========== ")
 print(data['y'])
 print(" === Result of Prediction of Label === ")
 print(pred)
+'''
+
+accuaracy_list = []
+for i in range(data.num_nodes*10):
+    test_dataset = KarateClub()
+    test_data = test_dataset[0]
+
+    x = test_data["x"]
+    edge_index = test_data['edge_index']
+
+    for j in range(int(data.num_edges/10)):
+        a = random.randint(0, data.num_edges-1)
+        b = random.randint(0, data.num_nodes-1)
+        if edge_index[0][a] == b:
+            continue
+        edge_index[1][a] = b
+
+    t_data = Data(x=x, edge_index=edge_index)
+    _, pred = model(t_data).max(dim=1)
+
+    err = 0.0
+    for j, p in enumerate(pred):
+        if p != data['y'][j]:
+            err += 1
+
+    accuaracy_list.append(1 - err/data.num_nodes)
+
+print("Max Accuaracy: ", max(accuaracy_list))
+print("Min Accuaracy: ", min(accuaracy_list))
+print("Average of Accuaracy: %d%", np.mean(accuaracy_list)*100)
