@@ -21,7 +21,7 @@ $ pip3 install matplotlib # install matplotlib to draw figures
 ```
 ## GCN karate club classification task
 ```
-$ python3 ./karate_club/karate_club2.py
+$ python3 ./karate_club/karate_club_gcn.py
 
 train dataset: 1
 test dataset: 34x10 # changed about 10% of edges in train data.
@@ -31,7 +31,7 @@ average of accuracy: 93.40%
 ```
 ## GCN MNIST classification task
 ```
-$ python3 ./mnist/mnist.py
+$ python3 ./mnist/mnist_gcn.py
 
 train dataset: 60000
 test dataset: 10000
@@ -43,7 +43,7 @@ final accuracy: 97.78%
 
 ## CNN MNIST classification task
 ```
-$ python3 ./mnist/mnist2.py
+$ python3 ./mnist/mnist_cnn.py
 
 train dataset: 60000
 test dataset: 10000
