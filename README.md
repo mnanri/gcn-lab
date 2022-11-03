@@ -20,6 +20,7 @@ $ pip3 install networkx # install networkx to handle visualized figures.
 $ pip3 install matplotlib # install matplotlib to draw figures
 ```
 ## GCN karate club classification task
+The graph contains 34 nodes, connected by 156 (undirected and unweighted) edges. Every node is labeled by one of four classes obtained via modularity-based clustering.
 ```
 $ python3 ./karate_club/karate_club_gcn.py
 
@@ -58,6 +59,7 @@ epoch: 20 loss: 0.029  Test Accuracy: 98.44 %%  Test Loss: 0.063
 ```
 
 ## GCN Amazon Computers classification task
+Nodes represent products and edges represent co-purchasing relations. The task is to map products to their respective product category based on the product’s co-purchasing network.
 ```
 $ python3 ./amazon_computers/amazon_computers.py
 
