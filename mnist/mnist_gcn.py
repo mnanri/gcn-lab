@@ -10,8 +10,8 @@ from torch_scatter import  scatter_max
 import matplotlib.pyplot as plt
 import gzip
 
-train_size = 6000
-test_size = 1000
+train_size = 60000
+test_size = 10000
 batch_size = 100
 epoch_num = 100
 
