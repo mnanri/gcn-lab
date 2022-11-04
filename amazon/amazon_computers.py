@@ -96,33 +96,4 @@ err = 0.0
 for i, p in enumerate(pred):
   if p != data.y[i]:
     err += 1
-print("Accuracy: {:.4f}%".format((1 - err / data.num_nodes) * 100))
-
-'''
-accuracy_list = []
-for _ in range(int(data.num_nodes/100)):
-
-  x = data["x"]
-  edge_index = data['edge_index']
-
-  for _ in range(int(data.num_edges/100)):
-    a = random.randint(0, data.num_edges-1)
-    b = random.randint(0, data.num_nodes-1)
-    if edge_index[0][a] == b:
-      continue
-    edge_index[1][a] = b
-
-  t_data = Data(x=x, edge_index=edge_index)
-  _, pred = model(t_data).max(dim=1)
-
-  err = 0.0
-  for j, p in enumerate(pred):
-    if p != data['y'][j]:
-      err += 1
-
-  accuracy_list.append(1 - err/data.num_nodes)
-
-print("Max Accuaracy: ", max(accuracy_list))
-print("Min Accuaracy: ", min(accuracy_list))
-print("Average of Accuaracy: ", np.mean(accuracy_list)*100)
-'''
+print("Accuracy: {:.2f}%".format((1 - err / data.num_nodes) * 100))

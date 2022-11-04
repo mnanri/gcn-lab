@@ -30,10 +30,9 @@ train data: {
   features: 34
   classes: 4
 }
-test dataset: 340 # changed about 10% of edges in train data.
 convolution layer: 2
 epoch count: 100
-average of accuracy: 93.40%
+average of train accuracy: 95.65%
 ```
 ## GCN MNIST classification task
 ```
@@ -74,10 +73,7 @@ train dataset: {
   features: 767
   classes: 10
 }
-test dataset: 137 # changed about 1% of edges in train data.
 convolution layer: 6
 epoch count: 1000
-
 accuracy: 87.51%
-average of accuracy in test dataset: 41.57%
 ```

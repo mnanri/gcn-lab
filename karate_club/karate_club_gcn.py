@@ -38,46 +38,54 @@ class Net(torch.nn.Module):
 
         return F.log_softmax(x, dim=1)
 
-# read dataset
-dataset = KarateClub()
+accracy_list = []
+for _ in range(100):
+    # read dataset
+    dataset = KarateClub()
 
-# print("Count of Graphs:\n>>>", len(dataset))  # 1
-# print("Count of Classes:\n>>>",dataset.num_classes)  # 4; each member belongs to a group
+    # print("Count of Graphs:\n>>>", len(dataset))  # 1
+    # print("Count of Classes:\n>>>",dataset.num_classes)  # 4; each member belongs to a group
 
-# device setting
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    # device setting
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-# produce instance of model
-model = Net()
+    # produce instance of model
+    model = Net()
 
-# set model as train mode
-model.train()
+    # set model as train mode
+    model.train()
 
-# get 1st graph
-data = dataset[0]
-# check_graph(data)
+    # get 1st graph
+    data = dataset[0]
+    # check_graph(data)
 
-# set optimizer
-optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
+    # set optimizer
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
 
-# learning loop part
-for epoch in range(100):
-    optimizer.zero_grad()
-    out = model(data)
-    loss = F.nll_loss(out, data.y)
-    loss.backward()
-    optimizer.step()
-    # print('Epoch %d | Loss: %.4f' % (epoch, loss.item()))
+    # learning loop part
+    for epoch in range(100):
+        optimizer.zero_grad()
+        out = model(data)
+        loss = F.nll_loss(out, data.y)
+        loss.backward()
+        optimizer.step()
+        # print('Epoch %d | Loss: %.4f' % (epoch+1, loss.item()))
 
-# set model as evaluation mode
-model.eval()
+    # set model as evaluation mode
+    model.eval()
 
-# prediction part
-# _, pred = model(data).max(dim=1)
+    # prediction part
+    _, pred = model(data).max(dim=1)
 
-# print("Result:\n", pred)
-# print("Truth:\n", data['y'])
+    err = 0
+    for i, p in enumerate(pred):
+        if p != data.y[i]:
+            err += 1
+    print(f"Accuracy: {(1 - err / len(pred))*100:.2f}%")
+    accracy_list.append((1 - err / len(pred))*100)
+print(f"Average Accuracy: {np.mean(accracy_list):.2f}%")
 
+# Following part is used for inspection of model
 '''
 # produce test graph data
 test_dataset = KarateClub()
@@ -104,32 +112,3 @@ print(data['y'])
 print(" === Result of Prediction of Label === ")
 print(pred)
 '''
-
-accuracy_list = []
-for _ in range(data.num_nodes*10):
-    test_dataset = KarateClub()
-    test_data = test_dataset[0]
-
-    x = test_data["x"]
-    edge_index = test_data['edge_index']
-
-    for _ in range(int(data.num_edges/10)):
-        a = random.randint(0, data.num_edges-1)
-        b = random.randint(0, data.num_nodes-1)
-        if edge_index[0][a] == b:
-            continue
-        edge_index[1][a] = b
-
-    t_data = Data(x=x, edge_index=edge_index)
-    _, pred = model(t_data).max(dim=1)
-
-    err = 0.0
-    for j, p in enumerate(pred):
-        if p != data['y'][j]:
-            err += 1
-
-    accuracy_list.append(1 - err/data.num_nodes)
-
-print("Max Accuaracy: ", max(accuracy_list))
-print("Min Accuaracy: ", min(accuracy_list))
-print("Average of Accuaracy: %d%", np.mean(accuracy_list)*100)
