@@ -43,7 +43,7 @@ test dataset: 10000
 convolution layer: 6
 affine layer: 2
 epoch count: 100
-final accuracy: 97.78%
+test accuracy: 97.78%
 ```
 
 ## CNN MNIST classification task
@@ -55,7 +55,7 @@ test dataset: 10000
 convolution layer: 2
 linear layer: 2
 epoch count: 20
-final accuravy: 98.32%
+test accuravy: 98.32%
 ```
 detail data
 ```
@@ -75,5 +75,21 @@ train dataset: {
 }
 convolution layer: 6
 epoch count: 1000
-accuracy: 87.51%
+train accuracy: 87.51%
+```
+
+## GCN GitHub network classification task
+Nodes represent users and edges represent following relations. The task is to predict the user’s primary programming language based on the user’s following network.
+```
+$ python3 ./github/github_gcn.py
+
+train dataset: {
+  nodes: 37700
+  egdes: 578006
+  features: 128
+  classes: 2
+}
+convolution layer: 6
+epoch count: 200
+train accuracy: 87.28%
 ```
