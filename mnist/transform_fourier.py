@@ -1,5 +1,6 @@
 import gzip
 import os
+from matplotlib import pyplot as plt
 import numpy as np
 
 dataset_dir = os.getcwd() + "/mnist" # this file wants to be executed in gnn-exp directory.
@@ -9,6 +10,7 @@ def transform_to_fourier(dataset, graphs_dir, node_features_dir):
   with gzip.open(dataset, 'rb') as f:
     data = np.frombuffer(f.read(), np.uint8, offset=16)
     data = data.reshape([-1,28,28])
+
     _dataset = np.zeros((len(data), 32, 32), dtype=np.complex128)
     for i in range(len(data)):
       for j in range(len(data[i])):
@@ -17,12 +19,12 @@ def transform_to_fourier(dataset, graphs_dir, node_features_dir):
         _data = np.append(0,_data)
         _data = np.append(_data,0)
         _data = np.append(_data,0)
-        _dataset[i][j] = _data
+        _dataset[i][j+2] = _data
 
     # make mask for high pass filter
     high_mask = np.zeros((32,32))
     center = 16
-    r = 8
+    r = 1
     for x in range(32):
       for y in range(32):
         if (x-center)**2 + (y-center)**2 > r**2:
@@ -42,13 +44,8 @@ def transform_to_fourier(dataset, graphs_dir, node_features_dir):
       # inverse 2D FFT
       _dataset[i] = np.fft.ifft2(_dataset[i])
       # get real part
-      h_dataset[i] = np.real(_dataset[i])
+      h_dataset[i] = np.abs(_dataset[i])
       h_dataset[i] = h_dataset[i].clip(0,255).astype(np.uint8)
-
-  '''
-  for i in range(32):
-    print(max(h_dataset[0][i]))
-  '''
 
   data = np.where(h_dataset < 102, 0, 1)
 

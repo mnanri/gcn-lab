@@ -31,7 +31,7 @@ def transform_mnist_data(dataset, graphs_dir, node_features_dir):
             if img[i][j] == -1:
                 continue
 
-            #8近傍に該当する部分を抜き取る。
+            # 8 neighbors
             filter = img[i-2:i+3,j-2:j+3].flatten()
             filter1 = filter[[6,7,8,11,13,16,17,18]]
 

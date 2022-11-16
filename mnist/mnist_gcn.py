@@ -1,3 +1,4 @@
+import time
 from matplotlib import test
 import numpy as np
 import torch
@@ -13,7 +14,7 @@ import gzip
 train_size = 60000
 test_size = 10000
 batch_size = 100
-epoch_num = 100
+epoch_num = 20
 
 # model by GCN
 class Net(nn.Module):
@@ -31,10 +32,13 @@ class Net(nn.Module):
     self.linear2 = torch.nn.Linear(64,10)
 
   def forward(self, data):
+    # print("data.x.size(): ",data.size())
     x, edge_index = data.x, data.edge_index
     x = self.conv1(x, edge_index)
+    # print("after conv1: ",x.size()) # torch.Size([-1, 16])
     x = F.relu(x)
     x = self.conv2(x, edge_index)
+    # print("after conv2: ",x.size()) # torch.Size([-1, 32])
     x = F.relu(x)
     x = self.conv3(x, edge_index)
     x = F.relu(x)
@@ -45,9 +49,12 @@ class Net(nn.Module):
     x = self.conv6(x, edge_index)
     x = F.relu(x)
     x, _ = scatter_max(x, data.batch, dim=0)
+    # print("after scatter_max: ",x.size()) # torch.Size([100, 128])
     x = self.linear1(x)
+    # print("after linear1: ",x.size()) # torch.Size([100, 64])
     x = F.relu(x)
     x = self.linear2(x)
+    # print("after linear2: ",x.size()) # torch.Size([100, 10])
     return x
 
 def load_mnist_graph(data_size, dataset, graphs_dir, node_feattures_dir):
@@ -110,6 +117,7 @@ def main():
 
   print("==========Start Training==========")
   # learning loop part by epoch
+  start = time.time()
   for epoch in range(epoch_num):
     train_loss = 0.0
     for i, batch in enumerate(train_loader):
@@ -149,7 +157,9 @@ def main():
     print('Test Accuracy: {:.2f} %%'.format(100 * float(correct/total)), end='  ')
     print(f'Test Loss: {loss.item()/batch_num:.3f}',end=endstr)
 
+  end = time.time()
   print("==========Finish Training==========")
+  print("Total time: {:.2f} sec".format(end-start))
 
   fig1, ax1 = plt.subplots()
   ax1.set_title('Loss [train=blue, test=orange]')

@@ -37,13 +37,33 @@ average of train accuracy: 95.65%
 ## GCN MNIST classification task
 ```
 $ python3 ./mnist/mnist_gcn.py
-
+```
+images are not fourier transformed
+```
 train dataset: 60000
 test dataset: 10000
 convolution layer: 6
 affine layer: 2
+
 epoch count: 100
 test accuracy: 97.78%
+```
+images are fourier transformed with high pass filter
+```
+train dataset: 60000
+test dataset: 10000
+convolution layer: 6
+affine layer: 2
+
+filter radius: 0
+epoch count: 20
+test accuracy: 95.70%
+total time: 5414.17 sec
+
+filter radius: 1
+epoch count: 20
+test accuracy: 93.14%
+total time: 4998.75 sec
 ```
 
 ## CNN MNIST classification task
@@ -55,11 +75,7 @@ test dataset: 10000
 convolution layer: 2
 linear layer: 2
 epoch count: 20
-test accuravy: 98.32%
-```
-detail data
-```
-epoch: 20 loss: 0.029  Test Accuracy: 98.44 %%  Test Loss: 0.063
+test accuracy: 98.32%
 ```
 
 ## GCN Amazon Computers classification task

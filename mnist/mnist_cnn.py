@@ -14,9 +14,9 @@ class Net(nn.Module):
   def __init__(self):
     super(Net, self).__init__()
 
-    self.conv1 = nn.Conv2d(1, 32, 3) # 28x28x32 -> 26x26x32
-    self.conv2 = nn.Conv2d(32, 64, 3) # 26x26x64 -> 24x24x64
-    self.pool = nn.MaxPool2d(2, 2) # 24x24x64 -> 12x12x64
+    self.conv1 = nn.Conv2d(1, 32, 3) # 26x26x32
+    self.conv2 = nn.Conv2d(32, 64, 3) # 24x24x64
+    self.pool = nn.MaxPool2d(2, 2) # 12x12x64
 
     self.dropout1 = nn.Dropout2d()
     self.fc1 = nn.Linear(12 * 12 * 64, 128)
@@ -31,12 +31,16 @@ class Net(nn.Module):
     x = F.relu(x)
     x = self.pool(x)
 
-    x = self.dropout1(x)
     x = x.view(-1, 12 * 12 * 64)
+    # print("after x.view: ",x.size()) # torch.Size([100, 9216])
+    x = self.dropout1(x)
+    # print("after x.dropout1: ",x.size()) # torch.Size([100, 64, 12, 12])
     x = self.fc1(x)
     x = F.relu(x)
     x = self.dropout2(x)
+    # print("after x.dropout2: ",x.size()) # torch.Size([100, 128])
     x = self.fc2(x)
+    # print("after x.fc2: ",x.size()) # torch.Size([100, 10])
     return x
 
 def load_dataset(data_size, img_file_name, label_file_name):
@@ -145,6 +149,7 @@ def main():
 
   print("==========Finish Training==========")
 
+  '''
   fig1, ax1 = plt.subplots()
   ax1.set_title('Loss [train=blue, test=orange]')
   ax1.set_xlabel('epoch')
@@ -165,6 +170,7 @@ def main():
   fig2.tight_layout()
   fig2.savefig('./mnist/accuracy_cnn.png')
   fig2.show()
+  '''
 
   # output final result
   correct = 0
