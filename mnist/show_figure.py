@@ -25,14 +25,16 @@ def show_data(dataset):
       p_data[l+2] = _data
 
     plt.imsave('./mnist/zero_padding.png', np.real(p_data), cmap='gray')
+    tmp_data = np.where(p_data < 102, 0, 216)
+    plt.imsave('./mnist/black_white.png', np.real(tmp_data), cmap='gray')
 
     # make mask for high pass filter
     high_mask = np.zeros((32,32))
-    center = 16
-    r = 1
+    # center = 16
+    # r = 1
     for x in range(32):
       for y in range(32):
-        if (x-center)**2 + (y-center)**2 > r**2:
+        if not((x in [15,16]) and (y in [15,16])): # (x-center)**2 + (y-center)**2 > r**2:
           high_mask[x][y] = 1
 
     # print(high_mask[16])
