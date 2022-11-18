@@ -13,21 +13,13 @@ def transform_to_fourier(dataset, graphs_dir, node_features_dir):
 
     _dataset = np.zeros((len(data), 32, 32), dtype=np.complex128)
     for i in range(len(data)):
-      for j in range(len(data[i])):
-        _data = np.array(data[i][j], dtype=np.complex128)
-        _data = np.append(0,_data)
-        _data = np.append(0,_data)
-        _data = np.append(_data,0)
-        _data = np.append(_data,0)
-        _dataset[i][j+2] = _data
+      _dataset[i] = np.pad(data[i],[(2,2),(2,2)],"constant",constant_values=(0))
 
     # make mask for high pass filter
     high_mask = np.zeros((32,32))
-    center = 16
-    r = 1
     for x in range(32):
       for y in range(32):
-        if (x-center)**2 + (y-center)**2 > r**2:
+        if not((x in [15,16]) and (y in [15,16])):
           high_mask[x][y] = 1
 
     h_dataset = np.zeros((len(data), 32, 32), dtype=np.uint8)
@@ -76,7 +68,7 @@ def transform_to_fourier(dataset, graphs_dir, node_features_dir):
         np_coordinate[filter[12]][1] = j-2
 
         for tmp in filter1:
-          if not tmp == -1:
+          if not tmp == 0:
             edges.append([filter[12],tmp])
 
     np.save(dataset_dir + '/' + graphs_dir + '/' + str(e),edges)
