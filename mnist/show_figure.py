@@ -16,13 +16,7 @@ def show_data(dataset):
     plt.imsave('./mnist/original_data.png', data[k], cmap='gray')
 
     p_data = np.zeros((32, 32), dtype=np.complex128)
-    for l in range(len(data[k])):
-      _data = np.array(data[k][l], dtype=np.complex128)
-      _data = np.append(0,_data)
-      _data = np.append(0,_data)
-      _data = np.append(_data,0)
-      _data = np.append(_data,0)
-      p_data[l+2] = _data
+    p_data = np.pad(data[k],[(2,2),(2,2)],"constant",constant_values=(0))
 
     plt.imsave('./mnist/zero_padding.png', np.real(p_data), cmap='gray')
     tmp_data = np.where(p_data < 102, 0, 216)
@@ -41,11 +35,16 @@ def show_data(dataset):
 
     # 2D FFT
     p_data = np.fft.fft2(p_data)
-    # shift
-    p_data = np.fft.fftshift(p_data)
-    # show FFT image
     tmpimg = np.abs(p_data)
     plt.imsave('./mnist/original_fft.png', tmpimg, cmap='gray')
+    # shift
+    p_data = np.fft.fftshift(p_data)
+    tmpimg = np.abs(p_data)
+    plt.imsave('./mnist/shifted_fft.png', tmpimg, cmap='gray')
+    # conj_p_data = np.conjugate(p_data)
+    # print(*np.log1p(np.abs(p_data*conj_p_data)))
+    # show FFT image
+
     # high pass filter
     p_data = p_data * high_mask
     tmpimg = np.abs(p_data)

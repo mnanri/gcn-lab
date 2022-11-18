@@ -55,15 +55,10 @@ test dataset: 10000
 convolution layer: 6
 affine layer: 2
 
-filter radius: 0
+filter radius: 2x2
 epoch count: 20
-test accuracy: 95.70%
-total time: 5414.17 sec
-
-filter radius: 1
-epoch count: 20
-test accuracy: 93.14%
-total time: 4998.75 sec
+test accuracy: 94.18%
+total time: 3518.64 sec
 ```
 
 ## CNN MNIST classification task
