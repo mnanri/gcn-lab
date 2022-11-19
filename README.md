@@ -72,6 +72,8 @@ convolution layer: 6
 affine layer: 2
 
 epoch: 1 loss: 2.302  Test Accuracy: 11.35 %%  Test Loss: 2.301
+epoch: 1 loss: 2.302  Test Accuracy: 11.35 %%  Test Loss: 2.301
+...
 Time for 1 epoch: 2491.03 sec # too slow
 ```
 
