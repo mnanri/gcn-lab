@@ -1,4 +1,5 @@
 import gzip
+import time
 from matplotlib import pyplot as plt
 import numpy as np
 import torch
@@ -98,6 +99,7 @@ def main():
   }
 
   print("==========Start Training==========")
+  start = time.time()
   # learning loop part by epoch
   for epoch in range(epoch_num):
     train_loss = 0.0
@@ -147,7 +149,9 @@ def main():
     print('Test Accuracy: {:.2f} %%'.format(100 * float(correct/total)), end='  ')
     print(f'Test Loss: {loss/batch_num:.3f}',end=endstr)
 
+  end = time.time()
   print("==========Finish Training==========")
+  print("Total time: {:.2f} sec".format(end-start))
 
   '''
   fig1, ax1 = plt.subplots()

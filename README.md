@@ -47,6 +47,10 @@ affine layer: 2
 
 epoch count: 100
 test accuracy: 97.78%
+
+epoch count: 20
+test accuracy: 94.57%
+total time: 4665.24 sec
 ```
 images are fourier transformed with high pass filter
 ```
@@ -60,6 +64,16 @@ epoch count: 20
 test accuracy: 94.18%
 total time: 3518.64 sec
 ```
+images are fourier transfirmed and make graphs with fourier spectrum
+```
+train dataset: 60000
+test dataset: 10000
+convolution layer: 6
+affine layer: 2
+
+epoch: 1 loss: 2.302  Test Accuracy: 11.35 %%  Test Loss: 2.301
+Time for 1 epoch: 2491.03 sec # too slow
+```
 
 ## CNN MNIST classification task
 ```
@@ -70,7 +84,8 @@ test dataset: 10000
 convolution layer: 2
 linear layer: 2
 epoch count: 20
-test accuracy: 98.32%
+test accuracy: 98.42%
+total time: 1601.62 sec
 ```
 
 ## GCN Amazon Computers classification task

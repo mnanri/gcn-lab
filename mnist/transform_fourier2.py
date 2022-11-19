@@ -28,7 +28,7 @@ def transform_to_fourier2(dataset, graphs_dir, node_features_dir):
       v = []
       for j in range(len(fourier_spectrum[i])):
         for k in range(len(fourier_spectrum[i][j])):
-          if fourier_spectrum[i][j][k] > 13:
+          if fourier_spectrum[i][j][k] > 16:
             v.append([j,k])
 
       cos = np.zeros((len(v),len(v)), dtype=np.float32)
@@ -38,7 +38,7 @@ def transform_to_fourier2(dataset, graphs_dir, node_features_dir):
           deno = 2*np.abs(_dataset[i][v[j][0]][v[j][1]])*np.abs(_dataset[i][v[k][0]][v[k][1]])
           if deno == 0:
             continue
-          if nume/deno < 1/np.sqrt(2):
+          if nume/deno > 0.9848: # 4*pi/9 (rad)
             continue
           cos[j][k] = nume/deno
           cos[k][j] = cos[j][k]
@@ -56,6 +56,9 @@ def transform_to_fourier2(dataset, graphs_dir, node_features_dir):
 
       np.save(dataset_dir + '/' + graphs_dir + '/' + str(i), edges)
       np.save(dataset_dir + '/' + node_features_dir + '/' + str(i), featuers)
+
+      if i % 10 == 9:
+        print('\r'+str(format((i+1)/len(fourier_spectrum)*100,'.2f'))+'%', end='')
 
 transform_to_fourier2(dataset_dir + '/train-images-idx3-ubyte.gz', 'train_fourier_spectrum_graphs', 'train_fourier_spectrum_node_features')
 transform_to_fourier2(dataset_dir + '/t10k-images-idx3-ubyte.gz', 'test_fourier_spectrum_graphs', 'test_fourier_spectrum_node_features')

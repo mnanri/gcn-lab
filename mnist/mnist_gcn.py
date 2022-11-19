@@ -57,7 +57,7 @@ class Net(nn.Module):
     # print("after linear2: ",x.size()) # torch.Size([100, 10])
     return x
 
-def load_mnist_graph(data_size, dataset, graphs_dir, node_feattures_dir):
+def load_mnist_graph(data_size, dataset, graphs_dir, node_features_dir):
   data_list = []
   labels = 0
   with gzip.open(dataset, 'rb') as f:
@@ -65,7 +65,7 @@ def load_mnist_graph(data_size, dataset, graphs_dir, node_feattures_dir):
 
   for i in range(data_size):
     edge = torch.tensor(np.load(graphs_dir+str(i)+'.npy').T,dtype=torch.long)
-    x = torch.tensor(np.load(node_feattures_dir+str(i)+'.npy')/28,dtype=torch.float)
+    x = torch.tensor(np.load(node_features_dir+str(i)+'.npy')/28,dtype=torch.float)
 
     d = Data(x=x, edge_index=edge.contiguous(),t=int(labels[i]))
     data_list.append(d)
@@ -78,12 +78,16 @@ def load_mnist_graph(data_size, dataset, graphs_dir, node_feattures_dir):
 # learning part
 def main():
   # load data for first mnist dataset
-  # train_set = load_mnist_graph(train_size, dataset='./mnist/train-labels-idx1-ubyte.gz', graphs_dir='./mnist/train_graphs/', node_feattures_dir='./mnist/train_node_features/')
-  # test_set = load_mnist_graph(test_size, dataset='./mnist/t10k-labels-idx1-ubyte.gz', graphs_dir='./mnist/test_graphs/', node_feattures_dir='./mnist/test_node_features/')
+  # train_set = load_mnist_graph(train_size, dataset='./mnist/train-labels-idx1-ubyte.gz', graphs_dir='./mnist/train_graphs/', node_features_dir='./mnist/train_node_features/')
+  # test_set = load_mnist_graph(test_size, dataset='./mnist/t10k-labels-idx1-ubyte.gz', graphs_dir='./mnist/test_graphs/', node_features_dir='./mnist/test_node_features/')
 
   # load data for fourier transformed mnist dataset
-  train_set = load_mnist_graph(train_size, dataset='./mnist/train-labels-idx1-ubyte.gz', graphs_dir='./mnist/train_fourier_graphs/', node_feattures_dir='./mnist/train_fourier_node_features/')
-  test_set = load_mnist_graph(test_size, dataset='./mnist/t10k-labels-idx1-ubyte.gz', graphs_dir='./mnist/test_fourier_graphs/', node_feattures_dir='./mnist/test_fourier_node_features/')
+  # train_set = load_mnist_graph(train_size, dataset='./mnist/train-labels-idx1-ubyte.gz', graphs_dir='./mnist/train_fourier_graphs/', node_features_dir='./mnist/train_fourier_node_features/')
+  # test_set = load_mnist_graph(test_size, dataset='./mnist/t10k-labels-idx1-ubyte.gz', graphs_dir='./mnist/test_fourier_graphs/', node_features_dir='./mnist/test_fourier_node_features/')
+
+  # load data for fourier transformed fourier spectlum mnist dataset
+  train_set = load_mnist_graph(train_size, dataset='./mnist/train-labels-idx1-ubyte.gz', graphs_dir='./mnist/train_fourier_spectrum_graphs/', node_features_dir='./mnist/train_fourier_spectrum_node_features/')
+  test_set = load_mnist_graph(test_size, dataset='./mnist/t10k-labels-idx1-ubyte.gz', graphs_dir='./mnist/test_fourier_spectrum_graphs/', node_features_dir='./mnist/test_fourier_spectrum_node_features/')
 
   print("train set size: >>> ", len(train_set))
   print("test set size: >>>", len(test_set))
@@ -156,6 +160,9 @@ def main():
     endstr = ' '*max(1,(train_size//1000-39))+"\n"
     print('Test Accuracy: {:.2f} %%'.format(100 * float(correct/total)), end='  ')
     print(f'Test Loss: {loss.item()/batch_num:.3f}',end=endstr)
+
+    if epoch == 0:
+      print("Time for 1 epoch: {:.2f} sec".format(time.time()-start))
 
   end = time.time()
   print("==========Finish Training==========")
