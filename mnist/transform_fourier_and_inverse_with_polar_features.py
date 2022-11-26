@@ -87,5 +87,8 @@ def transform_to_fourier(dataset, graphs_dir, node_features_dir):
           if not tmp == 0:
             edges.append([filter[12],tmp])
 
-    np.save(dataset_dir + '/' + graphs_dir + '/' + str(e),edges)
+    # np.save(dataset_dir + '/' + graphs_dir + '/' + str(e),edges)
     np.save(dataset_dir + '/' + node_features_dir + '/' +str(e),features)
+
+transform_to_fourier(dataset_dir + '/train-images-idx3-ubyte.gz', 'train_fourier_graphs', 'train_fourier_polar_node_features')
+transform_to_fourier(dataset_dir + '/t10k-images-idx3-ubyte.gz', 'test_fourier_graphs', 'test_fourier_polar_node_features')

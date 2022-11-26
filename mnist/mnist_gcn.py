@@ -78,16 +78,20 @@ def load_mnist_graph(data_size, dataset, graphs_dir, node_features_dir):
 # learning part
 def main():
   # load data for first mnist dataset
-  # train_set = load_mnist_graph(train_size, dataset='./mnist/train-labels-idx1-ubyte.gz', graphs_dir='./mnist/train_graphs/', node_features_dir='./mnist/train_node_features/')
-  # test_set = load_mnist_graph(test_size, dataset='./mnist/t10k-labels-idx1-ubyte.gz', graphs_dir='./mnist/test_graphs/', node_features_dir='./mnist/test_node_features/')
+  train_set = load_mnist_graph(train_size, dataset='./mnist/train-labels-idx1-ubyte.gz', graphs_dir='./mnist/train_graphs/', node_features_dir='./mnist/train_node_features/')
+  test_set = load_mnist_graph(test_size, dataset='./mnist/t10k-labels-idx1-ubyte.gz', graphs_dir='./mnist/test_graphs/', node_features_dir='./mnist/test_node_features/')
 
   # load data for fourier transformed mnist dataset
   # train_set = load_mnist_graph(train_size, dataset='./mnist/train-labels-idx1-ubyte.gz', graphs_dir='./mnist/train_fourier_graphs/', node_features_dir='./mnist/train_fourier_node_features/')
   # test_set = load_mnist_graph(test_size, dataset='./mnist/t10k-labels-idx1-ubyte.gz', graphs_dir='./mnist/test_fourier_graphs/', node_features_dir='./mnist/test_fourier_node_features/')
 
+  # load data for fourier transformed mnist dataset and polar based features
+  # train_set = load_mnist_graph(train_size, dataset='./mnist/train-labels-idx1-ubyte.gz', graphs_dir='./mnist/train_fourier_graphs/', node_features_dir='./mnist/train_fourier_polar_node_features/')
+  # test_set = load_mnist_graph(test_size, dataset='./mnist/t10k-labels-idx1-ubyte.gz', graphs_dir='./mnist/test_fourier_graphs/', node_features_dir='./mnist/test_fourier_polar_node_features/')
+
   # load data for fourier transformed fourier spectlum mnist dataset
-  train_set = load_mnist_graph(train_size, dataset='./mnist/train-labels-idx1-ubyte.gz', graphs_dir='./mnist/train_fourier_spectrum_graphs/', node_features_dir='./mnist/train_fourier_spectrum_node_features/')
-  test_set = load_mnist_graph(test_size, dataset='./mnist/t10k-labels-idx1-ubyte.gz', graphs_dir='./mnist/test_fourier_spectrum_graphs/', node_features_dir='./mnist/test_fourier_spectrum_node_features/')
+  # train_set = load_mnist_graph(train_size, dataset='./mnist/train-labels-idx1-ubyte.gz', graphs_dir='./mnist/train_fourier_spectrum_graphs/', node_features_dir='./mnist/train_fourier_spectrum_node_features/')
+  # test_set = load_mnist_graph(test_size, dataset='./mnist/t10k-labels-idx1-ubyte.gz', graphs_dir='./mnist/test_fourier_spectrum_graphs/', node_features_dir='./mnist/test_fourier_spectrum_node_features/')
 
   print("train set size: >>> ", len(train_set))
   print("test set size: >>>", len(test_set))

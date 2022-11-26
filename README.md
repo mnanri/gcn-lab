@@ -64,6 +64,18 @@ epoch count: 20
 test accuracy: 94.18%
 total time: 3518.64 sec
 ```
+images are fourier transformed with high pass filter and features of nodes are based on polar
+```
+train dataset: 60000
+test dataset: 10000
+convolution layer: 6
+affine layer: 2
+
+filter radius: 2x2
+epoch count: 20
+test accuracy: 94.51%
+total time: 3555.14 sec
+```
 images are fourier transfirmed and make graphs with fourier spectrum
 ```
 train dataset: 60000

@@ -149,6 +149,9 @@ def main():
     print('Test Accuracy: {:.2f} %%'.format(100 * float(correct/total)), end='  ')
     print(f'Test Loss: {loss/batch_num:.3f}',end=endstr)
 
+    if epoch == 0:
+      print("Time for 1 epoch: {:.2f} sec".format(time.time()-start))
+
   end = time.time()
   print("==========Finish Training==========")
   print("Total time: {:.2f} sec".format(end-start))
