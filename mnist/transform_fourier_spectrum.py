@@ -5,7 +5,7 @@ import numpy as np
 
 dataset_dir = os.getcwd() + '/mnist'
 
-def transform_to_fourier2(dataset, graphs_dir, node_features_dir):
+def transform_to_fourier_with_spectrum(dataset, graphs_dir, node_features_dir):
   data = 0
   with gzip.open(dataset, 'rb') as f:
     data = np.frombuffer(f.read(), np.uint8, offset=16)
@@ -60,5 +60,5 @@ def transform_to_fourier2(dataset, graphs_dir, node_features_dir):
       if i % 10 == 9:
         print('\r'+str(format((i+1)/len(fourier_spectrum)*100,'.2f'))+'%', end='')
 
-transform_to_fourier2(dataset_dir + '/train-images-idx3-ubyte.gz', 'train_fourier_spectrum_graphs', 'train_fourier_spectrum_node_features')
-transform_to_fourier2(dataset_dir + '/t10k-images-idx3-ubyte.gz', 'test_fourier_spectrum_graphs', 'test_fourier_spectrum_node_features')
+transform_to_fourier_with_spectrum(dataset_dir + '/train-images-idx3-ubyte.gz', 'train_fourier_spectrum_graphs', 'train_fourier_spectrum_node_features')
+transform_to_fourier_with_spectrum(dataset_dir + '/t10k-images-idx3-ubyte.gz', 'test_fourier_spectrum_graphs', 'test_fourier_spectrum_node_features')

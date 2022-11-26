@@ -5,7 +5,7 @@ import numpy as np
 
 dataset_dir = os.getcwd() + "/mnist" # this file wants to be executed in gnn-exp directory.
 
-def transform_to_fourier(dataset, graphs_dir, node_features_dir):
+def transform_to_fourier_with_polar(dataset, graphs_dir, node_features_dir):
   data = 0
   with gzip.open(dataset, 'rb') as f:
     data = np.frombuffer(f.read(), np.uint8, offset=16)
@@ -90,5 +90,5 @@ def transform_to_fourier(dataset, graphs_dir, node_features_dir):
     # np.save(dataset_dir + '/' + graphs_dir + '/' + str(e),edges)
     np.save(dataset_dir + '/' + node_features_dir + '/' +str(e),features)
 
-transform_to_fourier(dataset_dir + '/train-images-idx3-ubyte.gz', 'train_fourier_graphs', 'train_fourier_polar_node_features')
-transform_to_fourier(dataset_dir + '/t10k-images-idx3-ubyte.gz', 'test_fourier_graphs', 'test_fourier_polar_node_features')
+transform_to_fourier_with_polar(dataset_dir + '/train-images-idx3-ubyte.gz', 'train_fourier_graphs', 'train_fourier_polar_node_features')
+transform_to_fourier_with_polar(dataset_dir + '/t10k-images-idx3-ubyte.gz', 'test_fourier_graphs', 'test_fourier_polar_node_features')

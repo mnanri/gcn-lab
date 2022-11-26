@@ -52,6 +52,22 @@ def load_dataset(data_size, img_file_name, label_file_name):
   imgs = imgs.astype(np.float32)
   imgs /= 255
 
+  for i in range(int(3*data_size/5)):
+    tmp_img = np.zeros((28,28))
+    if i%3 == 0:
+      for j in range(28):
+        for k in range(28):
+          tmp_img[27-k][j] = imgs[i][0][j][k]
+    elif i%3 == 1:
+      for j in range(28):
+        for k in range(28):
+          tmp_img[k][27-j] = imgs[i][0][j][k]
+    else:
+      for j in range(28):
+        for k in range(28):
+          tmp_img[27-j][27-k] = imgs[i][0][j][k]
+    imgs[i][0] = tmp_img
+
   with gzip.open('./mnist/'+ label_file_name, 'rb') as f:
     labels = np.frombuffer(f.read(), np.uint8, offset=8)
 

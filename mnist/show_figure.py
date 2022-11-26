@@ -58,7 +58,13 @@ def show_data(dataset):
     f_data = np.abs(p_data)
     # print(f_data.max())
     f_data = f_data.clip(0,255).astype(np.uint8)
-
     plt.imsave('./mnist/high_pass_filter.png', f_data, cmap='gray')
+
+    # rotate image
+    r_data = np.zeros((32, 32), dtype=np.uint8)
+    for i in range(32):
+      for j in range(32):
+        r_data[31-i][31-j] = f_data[i][j]
+    plt.imsave('./mnist/rotate_data.png', r_data, cmap='gray')
 
 show_data('./mnist/train-images-idx3-ubyte.gz')

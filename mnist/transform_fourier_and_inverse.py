@@ -53,7 +53,7 @@ def transform_to_fourier(dataset, graphs_dir, node_features_dir):
 
     edges = []
     # make coordinate of (x,y)
-    np_coordinate = np.zeros((cnt,2))
+    features = np.zeros((cnt,2))
 
     for i in range(2,34):
       for j in range(2,34):
@@ -64,15 +64,15 @@ def transform_to_fourier(dataset, graphs_dir, node_features_dir):
         filter = img[i-2:i+3,j-2:j+3].flatten()
         filter1 = filter[[6,7,8,11,13,16,17,18]]
 
-        np_coordinate[filter[12]][0] = i-2
-        np_coordinate[filter[12]][1] = j-2
+        features[filter[12]][0] = i-2
+        features[filter[12]][1] = j-2
 
         for tmp in filter1:
           if not tmp == 0:
             edges.append([filter[12],tmp])
 
     np.save(dataset_dir + '/' + graphs_dir + '/' + str(e),edges)
-    np.save(dataset_dir + '/' + node_features_dir + '/' +str(e),np_coordinate)
+    np.save(dataset_dir + '/' + node_features_dir + '/' +str(e),features)
 
 transform_to_fourier(dataset_dir + '/train-images-idx3-ubyte.gz', 'train_fourier_graphs', 'train_fourier_node_features')
 transform_to_fourier(dataset_dir + '/t10k-images-idx3-ubyte.gz', 'test_fourier_graphs', 'test_fourier_node_features')
