@@ -26,9 +26,11 @@ def check_graph(data):
 class Net(torch.nn.Module):
     def __init__(self):
         super(Net, self).__init__()
+        node_features = 34
         hidden_size = 5
-        self.conv1 = GCNConv(dataset.num_node_features, hidden_size)
-        self.conv2 = GCNConv(hidden_size, dataset.num_classes)
+        classes = 4
+        self.conv1 = GCNConv(node_features, hidden_size)
+        self.conv2 = GCNConv(hidden_size, classes)
 
     def forward(self, data):
         x, edge_index = data.x, data.edge_index
@@ -38,8 +40,7 @@ class Net(torch.nn.Module):
 
         return F.log_softmax(x, dim=1)
 
-accracy_list = []
-for _ in range(100):
+def generate_model():
     # read dataset
     dataset = KarateClub()
 
@@ -63,13 +64,15 @@ for _ in range(100):
     optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
 
     # learning loop part
-    for epoch in range(100):
+    for _ in range(100):
         optimizer.zero_grad()
         out = model(data)
+        # print(out)
+        # print(out.shape)
+        # print(data.y)
         loss = F.nll_loss(out, data.y)
         loss.backward()
         optimizer.step()
-        # print('Epoch %d | Loss: %.4f' % (epoch+1, loss.item()))
 
     # set model as evaluation mode
     model.eval()
@@ -82,33 +85,33 @@ for _ in range(100):
         if p != data.y[i]:
             err += 1
     print(f"Accuracy: {(1 - err / len(pred))*100:.2f}%")
-    accracy_list.append((1 - err / len(pred))*100)
-print(f"Average Accuracy: {np.mean(accracy_list):.2f}%")
 
-# Following part is used for inspection of model
-'''
-# produce test graph data
-test_dataset = KarateClub()
-test_data = test_dataset[0]
+    '''
+    # Following part is used for inspection of model
+    # produce test graph data
+    test_dataset = KarateClub()
+    test_data = test_dataset[0]
 
-x = test_data["x"]
-edge_index = test_data['edge_index']
+    x = test_data["x"]
+    edge_index = test_data['edge_index']
 
-# change some edges of graph
-for j in range(int(data.num_edges/10)):
-    a = random.randint(0, data.num_edges-1)
-    b = random.randint(0, data.num_nodes-1)
-    if edge_index[0][a] == b:
-        continue
-    edge_index[1][a] = b
+    # change some edges of graph
+    for j in range(int(data.num_edges/10)):
+        a = random.randint(0, data.num_edges-1)
+        b = random.randint(0, data.num_nodes-1)
+        if edge_index[0][a] == b:
+            continue
+        edge_index[1][a] = b
 
-t_data = Data(x=x, edge_index=edge_index)
+    t_data = Data(x=x, edge_index=edge_index)
 
-# prediction with test graph data
-_, pred = model(t_data).max(dim=1)
+    # prediction with test graph data
+    _, pred = model(t_data).max(dim=1)
 
-print(" === Label of Former Graph =========== ")
-print(data['y'])
-print(" === Result of Prediction of Label === ")
-print(pred)
-'''
+    print(" === Label of Former Graph =========== ")
+    print(data['y'])
+    print(" === Result of Prediction of Label === ")
+    print(pred)
+    '''
+
+generate_model()

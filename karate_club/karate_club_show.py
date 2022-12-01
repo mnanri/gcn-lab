@@ -26,13 +26,16 @@ def check_graph(data):
 # reed dataset
 dataset = KarateClub()
 
-print("Count of Graphs:\n>>>", len(dataset))  # 1
-print("Count of Classes:\n>>>",dataset.num_classes)  # 4; each member belongs to a group
+# print("Count of Graphs:\n>>>", len(dataset))  # 1
+# print("Count of Classes:\n>>>",dataset.num_classes)  # 4; each member belongs to a group
 
 # get 1st graph
 data = dataset[0]
+
+print("Type of Graph:\n>>>", type(data))
 check_graph(data)
 
+'''
 # visualize 1st graph
 nxg = to_networkx(data)
 
@@ -62,3 +65,4 @@ nx.draw_networkx_labels(nxg, draw_pos, font_size=10)
 plt.title('KarateClub')
 plt.savefig('./karate_club/default.png')
 plt.show()
+'''
